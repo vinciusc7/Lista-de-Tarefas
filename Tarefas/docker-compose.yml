@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  tarefas:
+    image: ${DOCKER_REGISTRY-}tarefasapi
+    build:
+      context: .
+      dockerfile: Tarefas/Dockerfile
+    depends_on: 
+    - sqlserver
+    restart: always
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    hostname: 'sqlserver'
+    environment:
+      ACCEPT_EULA: 'Y'
+      MSSQL_SA_PASSWORD: "Admin123"
+    ports:
+    - "11433:1433"
+    restart: always
+    expose:
+    - 1433
+
